@@ -1,24 +1,24 @@
-require('dotenv').config()
-const express = require('express')
-const morgan = require('morgan')
+require('dotenv').config();
+const express = require('express');
+const morgan = require('morgan');
 
-const {connectDB} = require('./config/db')
-const userRouter = require('./routes/auth')
+const { connectDB } = require('./config/db');
+const userRouter = require('./routes/user');
 
-const app = express()
+const app = express();
 
-connectDB()
-if(process.env.NODE_ENV === 'development') {
-  app.use(morgan('dev'))
+connectDB();
+if (process.env.NODE_ENV === 'development') {
+	app.use(morgan('dev'));
 }
 
-app.use(express.urlencoded({extended: false}))
-app.use(express.json())
+app.use(express.urlencoded({ extended: false }));
+app.use(express.json());
 
 // ROUTES
-app.use('/', userRouter)
+app.use('/', userRouter);
 
-const port = process.env.port || 8000
-app.listen(port, (res) => {
-  console.log(`Server running on PORT ${port}`)
-})
+const port = process.env.port || 8000;
+app.listen(port, res => {
+	console.log(`Server running on port ${port}`);
+});
