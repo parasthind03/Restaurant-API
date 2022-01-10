@@ -15,6 +15,10 @@ const itemSchema = new mongoose.Schema({
 		type: Number,
 		required: [true, 'An item must have a price']
 	},
+  available: {
+    type: Boolean,
+    default: true
+  },
 	photoUrl: {
 		type: String,
 		default: ''

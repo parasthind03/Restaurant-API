@@ -51,7 +51,7 @@ exports.getUser = async (req, res, next) => {
 		const { password, updatedAt, __v, ...others } = user._doc;
 		res.status(200).json({
 			status: 'success',
-			data: others
+			others
 		});
 	} catch (error) {
 		res.status(400).json({
@@ -66,7 +66,7 @@ exports.getCurrentUser = async (req, res, next) => {
 		const user = req.user;
 		res.status(200).json({
 			status: 'success',
-			data: user
+			user
 		});
 	} catch (error) {
 		res.status(400).json({
