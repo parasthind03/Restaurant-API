@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const { login, register, protect } = require('../controllers/authController');
-const userController = require('../controllers/userController')
+const userController = require('../controllers/userController');
 
 router.post('/register', register);
 router.post('/login', login);
@@ -8,6 +8,8 @@ router.post('/login', login);
 //Protected Routes
 router.use(protect);
 
+//get current user
+router.get('/', userController.getCurrentUser);
 //get a user
 router.get('/:id', userController.getUser);
 //Update user

@@ -3,13 +3,8 @@ const jwt = require('jsonwebtoken');
 
 exports.register = async (req, res, next) => {
 	try {
-		const { username, email, password, passwordConfirm } = req.body;
-		const user = new User({
-			username,
-			email,
-			password,
-			passwordConfirm
-		});
+		// const { username, email, password, passwordConfirm } = req.body;
+		const user = new User(req.body);
 
 		await user.save();
 		const token = await jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
@@ -32,7 +27,7 @@ exports.register = async (req, res, next) => {
 exports.login = async (req, res, next) => {
 	try {
 		const { email, password } = req.body;
-		const user = await User.findOne({ email });
+		const user = await User.findOne({ email }).select('+password');
 
 		if (!user || !user.verifyPassword(password, user.password)) {
 			throw new Error('Incorrect credentials!');
@@ -58,30 +53,33 @@ exports.login = async (req, res, next) => {
 };
 
 exports.protect = async (req, res, next) => {
-  try {
-    let token;
-    if(req.headers.authorization && req.headers.authorization.startsWith('Bearer')){
-      token = req.headers.authorization.split(' ')[0]
-    }
-
-    if (!token) {
-			throw new Error('You are not logged in! Please Log in again!')
+	try {
+		let token;
+		if (
+			req.headers.authorization &&
+			req.headers.authorization.startsWith('Bearer')
+		) {
+			token = req.headers.authorization.split(' ')[1];
 		}
 
-		const decodedUser = await jwt.verify(token, process.env.JWT_SECRET)
-
-		const user = await User.findOne({ _id: decodedUser.id })
-
-    if (!user) {
-			throw new Error('The user belonging to this token no longer exist.')
+		if (!token) {
+			throw new Error('You are not logged in! Please Log in again!');
 		}
 
-		req.user = user
-		next()
-  } catch (error) {
-    res.status(400).json({
+		const decodedUser = await jwt.verify(token, process.env.JWT_SECRET);
+
+		const user = await User.findOne({ _id: decodedUser.id });
+
+		if (!user) {
+			throw new Error('The user belonging to this token no longer exist.');
+		}
+
+		req.user = user;
+		next();
+	} catch (error) {
+		res.status(400).json({
 			status: 'fail',
 			msg: error.message
 		});
-  }
-}
+	}
+};

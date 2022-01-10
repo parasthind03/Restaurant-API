@@ -43,7 +43,7 @@ exports.deleteUser = async (req, res, next) => {
 
 exports.getUser = async (req, res, next) => {
 	try {
-		const user = await User.findById(req.params.id)
+		const user = await User.findById(req.params.id);
 		if (!user) {
 			throw new Error('There is no user with this id');
 		}
@@ -52,6 +52,21 @@ exports.getUser = async (req, res, next) => {
 		res.status(200).json({
 			status: 'success',
 			data: others
+		});
+	} catch (error) {
+		res.status(400).json({
+			status: 'fail',
+			msg: error.message
+		});
+	}
+};
+
+exports.getCurrentUser = async (req, res, next) => {
+	try {
+		const user = req.user;
+		res.status(200).json({
+			status: 'success',
+			data: user
 		});
 	} catch (error) {
 		res.status(400).json({
