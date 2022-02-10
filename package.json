@@ -1,13 +1,13 @@
 {
   "name": "restaurantapp",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "A basic Restaurant app API",
+  "main": "app.js",
   "scripts": {
     "dev": "nodemon app.js"
   },
   "keywords": [],
-  "author": "",
+  "author": "Paras",
   "license": "ISC",
   "dependencies": {
     "bcryptjs": "^2.4.3",
