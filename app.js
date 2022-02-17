@@ -1,6 +1,7 @@
 require('dotenv').config();
 const express = require('express');
 const morgan = require('morgan');
+const path = require('path');
 
 const { connectDB } = require('./config/db');
 const userRouter = require('./routes/user');
@@ -13,8 +14,9 @@ if (process.env.NODE_ENV === 'development') {
 	app.use(morgan('dev'));
 }
 
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use('/public', express.static(path.join(__dirname, 'public')));
 
 // ROUTES
 app.use('/user', userRouter);
