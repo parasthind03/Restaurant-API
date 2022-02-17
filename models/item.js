@@ -15,10 +15,10 @@ const itemSchema = new mongoose.Schema({
 		type: Number,
 		required: [true, 'An item must have a price']
 	},
-  available: {
-    type: Boolean,
-    default: true
-  },
+	available: {
+		type: Boolean,
+		default: true
+	},
 	photoUrl: {
 		type: String,
 		default: ''
@@ -41,8 +41,9 @@ const itemSchema = new mongoose.Schema({
 				return val < this.price;
 			},
 			message: 'Discount price ({VALUE}) should be below reglar price'
-		}
+		},
+		default: 0
 	}
 });
 
-module.exports = mongoose.model('Item', itemSchema)
+module.exports = mongoose.model('Item', itemSchema);

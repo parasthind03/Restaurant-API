@@ -26,9 +26,12 @@ exports.getCart = async (req, res, next) => {
 	try {
 		const carts = await Cart.find({ user: req.user.id });
 
-		let totalPrice;
-		carts.map(cart => {
-			totalPrice = cart.item.price - cart.item.priceDiscount;
+		let totalPrice = 0;
+		carts.forEach(cart => {
+			if (cart.item.priceDiscount)
+				totalPrice +=
+					(cart.item.price - cart.item.priceDiscount) * cart.quantity;
+			else totalPrice += cart.item.price * cart.quantity;
 		});
 
 		res.status(200).json({
@@ -46,17 +49,16 @@ exports.getCart = async (req, res, next) => {
 
 exports.updateCart = async (req, res, next) => {
 	try {
-		const cart = await Cart.findOneAndUpdate(
-			{
-				item: req.params.itemId,
-				user: req.user.id
-			},
-			{ quantity: +req.body.quantity },
-			{ new: true }
-		);
+		const cart = await Cart.findOne({
+			item: req.params.itemId,
+			user: req.user.id
+		});
+
+		cart.quantity += req.body.quantity;
+		await cart.save();
 
 		res.status(200).json({
-			status: success,
+			status: 'success',
 			cart
 		});
 	} catch (error) {
