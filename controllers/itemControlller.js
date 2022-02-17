@@ -130,3 +130,33 @@ exports.updateItem = async (req, res, next) => {
 		});
 	}
 };
+
+exports.rate = async (req, res, next) => {
+	try {
+		const id = req.params.id;
+		const { rating } = req.body;
+		const oldRating = await Item.findById(id).rating;
+		const oldRatingQuantity = await Item.findById(id).ratingQuantity;
+		const newRating = (oldRating + rating) / (oldRatingQuantity + 1);
+		const newRatingQuantity = oldRatingQuantity + 1;
+
+		const item = await Item.findByIdAndUpdate(
+			id,
+			{ rating: newRating, ratingQuantity: newRatingQuantity },
+			{
+				new: true,
+				runValidators: true
+			}
+		);
+
+		res.status(200).json({
+			status: 'success',
+			item
+		});
+	} catch (error) {
+		res.status(400).json({
+			status: 'fail',
+			msg: error.message
+		});
+	}
+};

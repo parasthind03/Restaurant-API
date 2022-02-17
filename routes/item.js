@@ -7,6 +7,7 @@ router.get('/getAll', itemController.getAllItems);
 
 router.use(protect);
 router.get('/get/:id', itemController.getItem);
+router.post('/rate/:id', itemController.rate);
 
 router.use(ensureAuth);
 router.post('/add', itemController.addItem);
