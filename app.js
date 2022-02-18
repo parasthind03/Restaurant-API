@@ -7,6 +7,7 @@ const { connectDB } = require('./config/db');
 const userRouter = require('./routes/user');
 const itemRouter = require('./routes/item');
 const cartRouter = require('./routes/cart');
+const reviewRouter = require('./routes/review');
 
 const app = express();
 
@@ -23,6 +24,7 @@ app.use('/public', express.static(path.join(__dirname, 'public')));
 app.use('/user', userRouter);
 app.use('/item', itemRouter);
 app.use('/cart', cartRouter);
+app.use('/review', reviewRouter);
 
 const port = process.env.port || 8000;
 app.listen(port, res => {
