@@ -25,6 +25,10 @@ app.use('/user', userRouter);
 app.use('/item', itemRouter);
 app.use('/cart', cartRouter);
 app.use('/review', reviewRouter);
+app.get(
+	'/payment',
+	require('./controllers/purachaseController').getCheckoutSession
+);
 
 const port = process.env.port || 8000;
 app.listen(port, res => {
