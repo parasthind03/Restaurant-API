@@ -27,7 +27,8 @@ app.use('/cart', cartRouter);
 app.use('/review', reviewRouter);
 app.get(
 	'/payment',
-	require('./controllers/purachaseController').getCheckoutSession
+	require('./controllers/authController').protect,
+	require('./controllers/purachaseController').createCheckoutSession
 );
 
 const port = process.env.port || 8000;
