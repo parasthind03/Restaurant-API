@@ -9,7 +9,7 @@ exports.createCheckoutSession = async (req, res, next) => {
 			return {
 				name: cart.item.name,
 				images: [cart.item.photoUrl],
-				amount: cart.item.price - cart.item.priceDiscount,
+				amount: (cart.item.price - cart.item.priceDiscount)*100,
 				currency: 'inr',
 				quantity: cart.quantity
 			};
@@ -34,3 +34,4 @@ exports.createCheckoutSession = async (req, res, next) => {
 		});
 	}
 };
+
