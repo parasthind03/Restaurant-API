@@ -34,4 +34,3 @@ exports.createCheckoutSession = async (req, res, next) => {
 		});
 	}
 };
-
