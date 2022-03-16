@@ -11,7 +11,7 @@ exports.createCheckoutSession = async (req, res, next) => {
 			return {
 				name: cart.item.name,
 				images: [cart.item.photoUrl],
-				amount: (cart.item.price - cart.item.priceDiscount)*100,
+				amount: (cart.item.price - cart.item.priceDiscount) * 100,
 				currency: 'inr',
 				quantity: cart.quantity
 			};
@@ -84,31 +84,31 @@ exports.createPurchase = async (req, res, next) => {
 // 	}
 // };
 
-const createPurchaseCheckout = async session => {
-  console.log("Session",session);
-  // const tour = session.client_reference_id;
-  // const user = (await User.findOne({ email: session.customer_email })).id;
-  // const price = session.display_items[0].amount;
-  // await Purchase.create({ tour, user, price });
-};
+// const createPurchaseCheckout = async session => {
+	// console.log('Session', session);
+	// const tour = session.client_reference_id;
+	// const user = (await User.findOne({ email: session.customer_email })).id;
+	// const price = session.display_items[0].amount;
+	// await Purchase.create({ tour, user, price });
+// };
 
-exports.webhookCheckout = (req, res, next) => {
-  const signature = req.headers['stripe-signature'];
-  console.log(signature);
+// exports.webhookCheckout = (req, res, next) => {
+// 	const signature = req.headers['stripe-signature'];
+// 	console.log('signature', signature);
 
-  let event;
-  try {
-    event = stripe.webhooks.constructEvent(
-      req.body,
-      signature,
-      process.env.STRIPE_WEBHOOK_SECRET
-    );
-  } catch (err) {
-    return res.status(400).send(`Webhook error: ${err.message}`);
-  }
+// 	let event;
+// 	try {
+// 		event = stripe.webhooks.constructEvent(
+// 			req.body,
+// 			signature,
+// 			process.env.STRIPE_WEBHOOK_SECRET
+// 		);
+// 	} catch (err) {
+// 		return res.status(400).send(`Webhook error: ${err.message}`);
+// 	}
 
-  if (event.type === 'checkout.session.completed')
-    createPurchaseCheckout(event.data.object);
+// 	if (event.type === 'checkout.session.completed')
+// 		createPurchaseCheckout(event.data.object);
 
-  res.status(200).json({ received: true });
-};
+// 	res.status(200).json({ received: true });
+// };
