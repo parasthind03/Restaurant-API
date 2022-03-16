@@ -8,6 +8,7 @@ const userRouter = require('./routes/user');
 const itemRouter = require('./routes/item');
 const cartRouter = require('./routes/cart');
 const reviewRouter = require('./routes/review');
+const paymentRouter = require('./routes/payment');
 
 const app = express();
 
@@ -25,11 +26,7 @@ app.use('/user', userRouter);
 app.use('/item', itemRouter);
 app.use('/cart', cartRouter);
 app.use('/review', reviewRouter);
-app.get(
-	'/payment',
-	require('./controllers/authController').protect,
-	require('./controllers/purachaseController').createCheckoutSession
-);
+app.use('/payment', paymentRouter);
 
 const port = process.env.port || 8000;
 app.listen(port, res => {

@@ -1,9 +1,10 @@
 const router = require('express').Router();
 const cartController = require('../controllers/cartController');
 const { protect } = require('../controllers/authController');
-const { ensureAuth } = require('../helpers/ensureAuth');
+const { ensureUser } = require('../helpers/ensureAuth');
 
 router.use(protect);
+router.use(ensureUser);
 
 router.get('/getMyCart', cartController.getCart);
 
