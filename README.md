@@ -9,6 +9,7 @@ Tech Used-
 - Multer
 - Sharp
 - JWT
+- Stripe
 
 `Postman Documentation` <br> 
 https://documenter.getpostman.com/view/17042943/UVkjucPh
