@@ -10,6 +10,7 @@ Tech Used-
 - Sharp
 - JWT
 - Stripe
+- Docker
 
 `Postman Documentation` <br> 
 https://documenter.getpostman.com/view/17042943/UVkjucPh
